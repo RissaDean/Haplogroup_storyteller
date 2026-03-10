@@ -1,6 +1,12 @@
 Software usage: 
-Python 3.13
+Python 3.14.3
+openpyxl 3.1.5
+pandas 3.0.1 
 
+
+plotly and folio - interactive plots
+
+streamlit - write in python and it helps you build the website 
 
 
 
