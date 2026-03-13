@@ -6,8 +6,65 @@ Created on Thu Mar 12 14:46:29 2026
 @author: inf-48-2025
 """
 
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc, Input, Output, callback, State
+import pandas as pd
+from collections import Counter
 
+with open("/home/inf-48-2025/BINP29/PopGenProj/lineageDates.txt") as mtClock:
+    lines = mtClock.readlines()
+    ancestDates = {}
+    for line in lines:
+        line = line.split('\t')
+        ancestDates.update({line[0].strip().lower():line[1].strip()})
+
+with open("/home/inf-48-2025/BINP29/PopGenProj/Resources/Data/AADR_54.1/Ancient_samples.txt") as oldList:
+    lines = oldList.readlines()
+    oldDNA = []
+    for line in lines:
+        line = line.lower().split()
+        oldDNA.append(line[1])
+    
+with open("/home/inf-48-2025/BINP29/PopGenProj/Resources/Data/AADR_54.1/Modern_samples.txt") as newList:
+    lines = newList.readlines()
+    newDNA = []
+    for line in lines:
+        line = line.lower().split()
+        newDNA.append(line[1])
+        
+def haplogroup_storyteller(userGroup): 
+    return_text= ''
+    nl = '\n'
+    userTrunc = userGroup
+    
+    upTheTree = False
+
+    mainLineage = userGroup[0]
+
+    firstSplit = ancestDates.get(mainLineage, "ERROR")
+
+    latestSplit = ancestDates.get(userTrunc, "ERROR")
+
+    #if no data, go back until we find data
+    if firstSplit == "ERROR" or latestSplit == "ERROR":
+        while len(userTrunc) >= 1 and latestSplit == "ERROR":
+            userTrunc = userTrunc[:-1]
+            latestSplit = ancestDates.get(userTrunc, "ERROR")
+        if len(userTrunc) == 1 and latestSplit == "ERROR":
+            print("This lineage is not in our database, please check spelling and try again.")
+            quit()
+        elif len(userTrunc) == 1:
+            upTheTree = True
+
+    #print important info
+    firstSplit = int(firstSplit)
+    latestSplit = int(latestSplit)
+    return_text = return_text+f"The {mainLineage} lineage is estimated to have diverged from the rest of humanity around {firstSplit-2000} BCE."
+    return_text = return_text + "  "
+    if upTheTree == True:
+        return_text= return_text+"Our database has no information on dates for futher divergances of the line."
+    else:    
+        return_text= return_text+f"\nThe most recent common ancestor for the {userTrunc} maternal line is estimated to have lived around {latestSplit-2000} BCE"
+    return(return_text)
 
 app = Dash()
 
@@ -109,34 +166,31 @@ fig.update_layout(annotations=annotations,
 fig.update_yaxes(autorange="reversed")
 
 app.layout = html.Div(children=[
-    html.H1(children='Your Haplogroup Story',
-            style={
-            'textAlign': 'center',
-            'color': colors['text'],
-            'font-size': 65
-        }),
+    html.H1(children='Your Haplogroup Story',style={'textAlign': 'center','color': colors['text'],'font-size': 65}), 
+    
+    dcc.Input(id='input1'),
+    
+    html.Button('click me', id='button'),
 
-   html.Div(children=[
-    html.Div(children=[dcc.Markdown('''
-    *This text will be italic*
+   html.Div(#style={'backgroundColor': colors['background'], 'display': 'flex', 'flexDirection': 'column'}, 
+            children=[
+       html.Div(style={'display': 'flex', 'flexDirection': 'row'}, children=[   
+           html.Div(id='output', style={"display": 'flex','textAlign': 'center', 'vertical-align': 'top',
+                                        'color': '#292929', 'justify-content': 'center', 'background-color':'#F0F0F0', 'padding': 10, 'flex': 1}),
 
-    _This will also be italic_
+           html.Div(children=[dcc.Graph(id='example-graph', figure=fig, style={"display": 'flex','color':colors['background'], 'padding': 10, 'flex': 1}, 
+           ), ])          
+           ])])])
 
+@app.callback(
+    Output('output', 'children'),
+    [Input('button', 'n_clicks')],
+    State('input1', 'value'))
 
-    **This text will be bold**
+def update_output_div(n_clicks, input_value):
+    display_text = haplogroup_storyteller(input_value)
+    return(display_text)
 
-    __This will also be bold__
-
-    _You **can** combine them_
-''', style={"display": 'flex','textAlign': 'center', 'vertical-align': 'top',
-    'color': '#292929', 'justify-content': 'center', 'background-color':'#F0F0F0', 'padding': 10, 'flex': 1})]),
-
-    html.Div(children=[dcc.Graph(
-        id='example-graph',
-        figure=fig,
-        style={"display": 'flex','color':colors['background'], 'padding': 10, 'flex': 1}
-    )
-])], style={'display': 'flex', 'flexDirection': 'row'})], style={'backgroundColor': colors['background'], 'display': 'flex', 'flexDirection': 'column'})
 
 if __name__ == '__main__':
     app.run(debug=True)
