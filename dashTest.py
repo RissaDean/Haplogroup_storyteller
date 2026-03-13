@@ -108,7 +108,7 @@ fig.update_layout(annotations=annotations,
               )
 fig.update_yaxes(autorange="reversed")
 
-app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
+app.layout = html.Div(children=[
     html.H1(children='Your Haplogroup Story',
             style={
             'textAlign': 'center',
@@ -116,7 +116,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'font-size': 65
         }),
 
-    dcc.Markdown('''
+   html.Div(children=[
+    html.Div(children=[dcc.Markdown('''
     *This text will be italic*
 
     _This will also be italic_
@@ -127,15 +128,15 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     __This will also be bold__
 
     _You **can** combine them_
-''', style={"display": 'inline-block', 'width':'49%', 'textAlign': 'center', 'vertical-align': 'top',
-    'color': colors['text']}),
+''', style={"display": 'flex','textAlign': 'center', 'vertical-align': 'top',
+    'color': '#292929', 'justify-content': 'center', 'background-color':'#F0F0F0', 'padding': 10, 'flex': 1})]),
 
-    dcc.Graph(
+    html.Div(children=[dcc.Graph(
         id='example-graph',
         figure=fig,
-        style={"display": 'inline-block', 'width':'49%', 'color':colors['background']}
+        style={"display": 'flex','color':colors['background'], 'padding': 10, 'flex': 1}
     )
-])
+])], style={'display': 'flex', 'flexDirection': 'row'})], style={'backgroundColor': colors['background'], 'display': 'flex', 'flexDirection': 'column'})
 
 if __name__ == '__main__':
     app.run(debug=True)
