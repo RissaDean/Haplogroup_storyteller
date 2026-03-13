@@ -14,6 +14,11 @@ app = Dash()
 from igraph import Graph
 import plotly.graph_objects as go
 
+colors = {
+    'background': '#ABCDD9',
+    'text': '#F7FCFF'
+}
+
 usergroup = "U2c"
 layers = len(usergroup)
 
@@ -47,23 +52,44 @@ for edge in E:
     Ye+=[2*M-position[edge[0]][1],2*M-position[edge[1]][1], None]
 
 
+annotations = []
+for k in range(L):
+    if k < layers:
+       annotations.append( 
+            dict(
+                text=usergroup[0:(k+1)], # or replace labels with a different list for the text within the circle
+                x=position[k][0], y=2*M-position[k][1],
+                xref='x1', yref='y1',
+                font=dict(color='#FFFFFF', size=18),
+                showarrow=False))
+    else:
+        annotations.append( 
+             dict(
+                 text='', # or replace labels with a different list for the text within the circle
+                 x=position[k][0], y=2*M-position[k][1],
+                 xref='x1', yref='y1',
+                 font=dict(color='#FFFFFF', size=18),
+                 showarrow=False) )
+
+
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=Xe,
                    y=Ye,
                    mode='lines',
-                   line=dict(color='rgb(210,210,210)', width=1),
+                   line=dict(color='#F0F0F0', width=3),
                    hoverinfo='none'
                    ))
 fig.add_trace(go.Scatter(x=Xn,
                   y=Yn,
                   mode='markers',
                   name='bla',
-                  marker=dict(symbol='circle-dot',
-                                size=18,
-                                color='#6175c1',    #'#DB4551',
-                                line=dict(color='rgb(50,50,50)', width=1)
+                  hoverinfo='none',
+                  marker=dict(symbol='circle',
+                                size=60,
+                                color='#81B1E3',    #'#DB4551',
+                                line=dict(color='#FFFFFF', width=5)
                                 ),
-                  opacity=0.8
+                  opacity=1
                   ))
 
 axis = dict(showline=False, # hide axis line, grid, ticklabels and  title
@@ -72,34 +98,42 @@ axis = dict(showline=False, # hide axis line, grid, ticklabels and  title
             showticklabels=False,
             )
 
-fig.update_layout(title= f'The lineage of {usergroup}',
+fig.update_layout(annotations=annotations, 
               font_size=12,
               showlegend=False,
               xaxis=axis,
               yaxis=axis,
-              margin=dict(l=40, r=40, b=85, t=100),
-              hovermode='closest',
-              plot_bgcolor='rgb(248,248,248)'
+              margin=dict(l=0, r=0, b=0, t=0),
+              plot_bgcolor=colors['background']
               )
+fig.update_yaxes(autorange="reversed")
 
-colors = {
-    'background': '#ABCDD9',
-    'text': '#F7FCFF'
-}
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
     html.H1(children='Your Haplogroup Story',
             style={
             'textAlign': 'center',
-            'color': colors['text']
+            'color': colors['text'],
+            'font-size': 65
         }),
 
-    html.Div(children='''
-        Dash: A web application framework for your data.
-    '''),
+    dcc.Markdown('''
+    *This text will be italic*
+
+    _This will also be italic_
+
+
+    **This text will be bold**
+
+    __This will also be bold__
+
+    _You **can** combine them_
+''', style={"display": 'inline-block', 'width':'49%', 'textAlign': 'center', 'vertical-align': 'top',
+    'color': colors['text']}),
 
     dcc.Graph(
         id='example-graph',
-        figure=fig
+        figure=fig,
+        style={"display": 'inline-block', 'width':'49%', 'color':colors['background']}
     )
 ])
 
