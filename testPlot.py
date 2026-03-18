@@ -12,7 +12,7 @@ from igraph import Graph
 import plotly.graph_objects as go
 from plotly.offline import plot
 
-usergroup = "U2c"
+usergroup = "U2c1"
 layers = len(usergroup)
 
 nr_vertices = (len(usergroup)+(len(usergroup)-1))
@@ -53,7 +53,7 @@ for k in range(L):
                 text=usergroup[0:(k+1)], # or replace labels with a different list for the text within the circle
                 x=position[k][0], y=2*M-position[k][1],
                 xref='x1', yref='y1',
-                font=dict(color='#FFFFFF', size=18),
+                font=dict(color='#FFFFFF', size=24),
                 showarrow=False))
     else:
         annotations.append( 
@@ -78,7 +78,7 @@ fig.add_trace(go.Scatter(x=Xn,
                   name='bla',
                   hoverinfo='none',
                   marker=dict(symbol='circle',
-                                size=60,
+                                size=90,
                                 color='#81B1E3',    #'#DB4551',
                                 line=dict(color='#FFFFFF', width=5)
                                 ),
@@ -91,8 +91,7 @@ axis = dict(showline=False, # hide axis line, grid, ticklabels and  title
             showticklabels=False,
             )
 
-fig.update_layout(title= 'Tree with Reingold-Tilford Layout',
-              annotations=annotations, 
+fig.update_layout(annotations=annotations, 
               font_size=12,
               showlegend=False,
               xaxis=axis,
