@@ -89,7 +89,7 @@ modernPeople = []
 oldPeople = []
 
 #run through the database and compile a list of the index values for our anchient and modern DNA sets
-for index, item in enumerate(df['Genetic ID'], start=0):
+for index, item in enumerate(df.iloc[:, 0], start=0):
     item = str(item).strip().lower()
     if item in newDNA:
         modernPeople.append(index)
