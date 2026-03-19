@@ -169,7 +169,7 @@ def haplogroup_storyteller(userGroup):
         return_text.append("Our database has no information on dates for futher divergances of the line.")
     else:    
         userTrunc = userTrunc[0].upper() + userTrunc[1:]
-        return_text.append(f"The most recent common ancestor for the {userTrunc} maternal line is estimated to have lived around {latestSplit-2000} BCE")
+        return_text.append(f"The woman who was the most recent common ancestor for the {userTrunc} line is estimated to have lived around {latestSplit-2000} BCE")
 
     
     #compile list of possible ancestors and relatives
@@ -244,7 +244,7 @@ def haplogroup_storyteller(userGroup):
     if oldestAncestorDate > 1950:
         return_text.append(f"The oldest known member of the {userGroupPrint} line was a {oldestAncestorSex} who lived around {(1950-oldestAncestorDate)*-1} BCE in modern-day {df.iat[oldestAncestor, 2]}")
     else:
-        return_text.append(f"The oldest known member of the {userGroupPrint} line a {oldestAncestorSex} who lived around {1950-oldestAncestorDate} CE in modern-day {df.iat[oldestAncestor, 2]}")
+        return_text.append(f"The oldest known member of the {userGroupPrint} line was a {oldestAncestorSex} who lived around {1950-oldestAncestorDate} CE in modern-day {df.iat[oldestAncestor, 2]}")
       
         
     if newestAncestorDate > 1950 and oldestAncestor != newestAncestor:
@@ -395,7 +395,7 @@ app.layout = html.Div(children=[
     
     dcc.Markdown("""The mitochondrial DNA (or mtDNA) is passed directly from mother to child. Over the millenia, mutations have accumulated in different lines of humanity, allowing us to identify specific "haplogroups". 
                  These groups are characteristic patterns of mutation that can identify the divergence of ancient humanity. Enter your mitochondrial haplogroup to learn more about your evolutionary history and see
-                 a 'family tree' of your maternal lineage!"""),
+                 a 'family tree' of your maternal lineage based on the work of Soares et al and the Allen Ancient DNA Resource (AADR)"""),
     
     dcc.Input(id='input1', style={'color': colors['black']}), #input box
     
