@@ -52,3 +52,15 @@ In order to test the functionality of this program, run the following command (w
 python haplogroupStoryteller.py Assets/testData.xlsx
 
 when the web interface is open, input either 'U5b2c' or 'X2c2' for proper functionality demonstration. 
+
+***Acknowlegements***
+
+AADR metadata file:
+
+Mallick, Swapan; Reich, David, 2023, "The Allen Ancient DNA Resource (AADR): A curated compendium of ancient human genomes", https://doi.org/10.7910/DVN/FFIDCW, Harvard Dataverse, V9; v62.0_1240k_public.xlsx 
+
+Mitochondrial clock lineage estimates:
+
+Soares, P., Ermini, L., Thomson, N., Mormina, M., Rito, T., Röhl, A., Salas, A., Oppenheimer, S., Macaulay, V., & Richards, M. B. (2009). Correcting for purifying selection: an improved human mitochondrial molecular clock. American journal of human genetics, 84(6), 740–759. https://doi.org/10.1016/j.ajhg.2009.05.001
+
+The author would also like to thank Eran Elhaik, Chandrashekar Chandramouleswara Rajshekar, and Mainak Chakraborty for their support in creating this program. 
