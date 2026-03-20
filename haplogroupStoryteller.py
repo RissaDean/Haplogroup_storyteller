@@ -242,15 +242,15 @@ def haplogroup_storyteller(userGroup):
 
     #output information in user-friendly format      
     if oldestAncestorDate > 1950:
-        return_text.append(f"The oldest known member of the {userGroupPrint} line was a {oldestAncestorSex} who lived around {(1950-oldestAncestorDate)*-1} BCE in modern-day {df.iat[oldestAncestor, 2]}")
+        return_text.append(f"The oldest known member of the {userGroupPrint} line was a {oldestAncestorSex} who lived around {int((1950-oldestAncestorDate)*-1)} BCE in modern-day {df.iat[oldestAncestor, 2]}")
     else:
-        return_text.append(f"The oldest known member of the {userGroupPrint} line was a {oldestAncestorSex} who lived around {1950-oldestAncestorDate} CE in modern-day {df.iat[oldestAncestor, 2]}")
+        return_text.append(f"The oldest known member of the {userGroupPrint} line was a {oldestAncestorSex} who lived around {int(1950-oldestAncestorDate)} CE in modern-day {df.iat[oldestAncestor, 2]}")
       
         
     if newestAncestorDate > 1950 and oldestAncestor != newestAncestor:
-        return_text.append(f"The most recent archeological record of the {userGroupPrint} line in the AADR database was a {newestAncestorSex} who lived around {(1950-newestAncestorDate)*-1} BCE in modern-day {df.iat[newestAncestor, 2]}")
+        return_text.append(f"The most recent archeological record of the {userGroupPrint} line in the AADR database was a {newestAncestorSex} who lived around {int((1950-newestAncestorDate)*-1)} BCE in modern-day {df.iat[newestAncestor, 2]}")
     elif oldestAncestor != newestAncestor:
-        return_text.append(f"The most recent archeological record of the {userGroupPrint} line in the AADR database was a {newestAncestorSex} who lived around {1950-newestAncestorDate} CE in modern-day {df.iat[newestAncestor, 2]}")
+        return_text.append(f"The most recent archeological record of the {userGroupPrint} line in the AADR database was a {newestAncestorSex} who lived around {int(1950-newestAncestorDate)} CE in modern-day {df.iat[newestAncestor, 2]}")
     
     #find info on relatives
     relativeOrigins = []
